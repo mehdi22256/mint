@@ -8,12 +8,12 @@ const commentsSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "user is required"],
+    // required: [true, "user is required"],
   },
   blog: {
     type: Schema.Types.ObjectId,
     ref: "Blog",
-    required: [true, "blog is required"],
+    // required: [true, "blog is required"],
   },
 });
 
