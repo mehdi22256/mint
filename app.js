@@ -2,8 +2,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const path = require("path");
 // const userRoutes = require("./routes/user.routes");
-// const blogRoutes = require("./routes/blog.routes");
-// const commentRoutes = require("./routes/comment.routes");
+const blogRoutes = require("./blog/blog.routes");
+const commentRoutes = require("./comments/commeint.routes");
 // const categoryRoutes = require("./routes/category.routes");
 const staticPath = path.join(path.dirname(""), "static/images");
 const connectDB = require("./dataBase");
@@ -14,11 +14,12 @@ const cors = require("cors");
 const erroring = require("./middlewares/errorHandler");
 app.use(express.json());
 app.use(cors());
+connectDB();
 
-// app.use("/image", express.static(staticPath));
+app.use("/images", express.static(staticPath));
 // app.use("/user", userRoutes);
-// app.use("/blog", blogRoutes);
-// app.use("/comment", commentRoutes);
+app.use("/blog", blogRoutes);
+app.use("/comment", commentRoutes);
 // app.use("/category", categoryRoutes);
 
 app.use((err, req, res, next) => {
@@ -28,8 +29,6 @@ app.use((err, req, res, next) => {
 });
 
 app.use(erroring);
-
-connectDB();
 
 app.listen(port, () => {
   console.log(`your port is ${port}`);
