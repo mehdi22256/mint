@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const path = require("path");
-// const userRoutes = require("./routes/user.routes");
+const userRoutes = require("./user/user.routes");
 // const blogRoutes = require("./routes/blog.routes");
 // const commentRoutes = require("./routes/comment.routes");
 // const categoryRoutes = require("./routes/category.routes");
@@ -18,8 +18,8 @@ const erroring = require("./middlewares/errorHandler");
 app.use(express.json());
 app.use(cors());
 
-// app.use("/image", express.static(staticPath));
-// app.use("/user", userRoutes);
+app.use("/image", express.static(staticPath));
+app.use("/user", userRoutes);
 // app.use("/blog", blogRoutes);
 // app.use("/comment", commentRoutes);
 // app.use("/category", categoryRoutes);

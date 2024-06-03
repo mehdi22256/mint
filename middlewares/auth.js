@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 exports.authenticateUser = async (req, res, next) => {
   try {
     const foundUser = await User.findOne({ username: req.body.username });
+    console.log("🚀 ~ exports.authenticateUser= ~ foundUser:", foundUser);
 
     if (!foundUser) {
       const error = new Error("Username doesn't exist");

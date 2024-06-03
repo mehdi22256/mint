@@ -11,15 +11,15 @@ const userSchema = new Schema({
   },
   firstName: {
     type: String,
-    required: [true, "full name is required"],
+    required: [true, "first name is required"],
   },
   secondName: {
     type: String,
-    required: [true, "full name is required"],
+    required: [true, "second name is required"],
   },
   familyName: {
     type: String,
-    required: [true, "full name is required"],
+    required: [true, "family name is required"],
   },
   email: {
     type: String,
@@ -56,13 +56,12 @@ const userSchema = new Schema({
   },
   certificate: {
     type: String,
-    required: [true, "certificate is required"],
   },
-  role: {
-    type: Schema.Types.ObjectId,
-    ref: "Role",
-    required: [true, "role is required"],
-  },
+  // role: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Role",
+  //   required: [true, "role is required"],
+  // },
 });
 
 const User = model("User", userSchema);
