@@ -5,6 +5,9 @@ const path = require("path");
 // const blogRoutes = require("./routes/blog.routes");
 // const commentRoutes = require("./routes/comment.routes");
 // const categoryRoutes = require("./routes/category.routes");
+const Role = require("./Roles/Roles.routes");
+const Booking = require("./Booking/Booking.routes");
+const chat = require("./Chat/chat.routes");
 const staticPath = path.join(path.dirname(""), "static/images");
 const connectDB = require("./dataBase");
 const express = require("express");
@@ -20,6 +23,9 @@ app.use(cors());
 // app.use("/blog", blogRoutes);
 // app.use("/comment", commentRoutes);
 // app.use("/category", categoryRoutes);
+app.use("/role", Role);
+app.use("/booking", Booking);
+app.use("/caht", chat);
 
 app.use((err, req, res, next) => {
   res
