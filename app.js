@@ -28,7 +28,7 @@ app.use("/chatroom", chatRoomRoutes);
 app.use("/category", categoryRoutes);
 app.use("/role", Role);
 app.use("/booking", Booking);
-app.use("/caht", chat);
+app.use("/chat", chat);
 
 app.use((err, req, res, next) => {
   res

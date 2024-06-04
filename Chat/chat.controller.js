@@ -21,7 +21,7 @@ const getOneChat = async (req, res, next) => {
 
 const addChat = async (req, res, next) => {
   try {
-    const addchat = await chat.create(req.body);
+    const addchat = await chat.create({ ...req.body, user: req.user.id });
     return res.status(200).json({ addchat });
   } catch (error) {
     next(error);

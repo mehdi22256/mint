@@ -65,7 +65,6 @@ const signIn = async (req, res, next) => {
   try {
     const payLoad = req.user;
     const generatedToken = generateToken(payLoad);
-    console.log("🚀 ~ signIn ~ generatedToken:", generatedToken);
     res.status(201).json(generatedToken);
   } catch (error) {
     next(error);

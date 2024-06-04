@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { authenticateToken } = require("../middlewares/auth");
 const {
   getBooking,
   addBooking,
@@ -9,6 +10,6 @@ const {
 
 router.get("/", getBooking);
 router.get("/:id", findOneBooking);
-router.post("/", addBooking);
+router.post("/", authenticateToken, addBooking);
 router.delete("/:id", deleteBooking);
 module.exports = router;

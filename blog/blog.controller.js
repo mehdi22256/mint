@@ -32,6 +32,7 @@ async function createPostBlog(req, res, next) {
     const newBlog = await Blog.create({
       ...req.body,
       image: imageUrl,
+      user: req.user.id,
     });
     res.status(201).json(newBlog);
   } catch (error) {

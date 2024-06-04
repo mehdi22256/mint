@@ -51,17 +51,18 @@ const userSchema = new Schema({
     required: [true, "city is required"],
   },
   location: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "location",
     required: [true, "location is required"],
   },
   certificate: {
     type: String,
   },
-  // role: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Role",
-  //   required: [true, "role is required"],
-  // },
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: "Role",
+    required: [true, "role is required"],
+  },
 });
 
 const User = model("User", userSchema);
