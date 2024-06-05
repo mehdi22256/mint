@@ -50,11 +50,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, "city is required"],
   },
-  location: {
-    type: Schema.Types.ObjectId,
-    ref: "location",
-    required: [true, "location is required"],
-  },
+
   certificate: {
     type: String,
   },

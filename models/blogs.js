@@ -12,7 +12,7 @@ const blogSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now(),
+    default: new Date(),
   },
   timeOfReading: {
     type: String,

@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const location = require("../models/location");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -32,8 +33,8 @@ const getAllUsers = async (req, res, next) => {
 
 const getOneUser = async (req, res, next) => {
   try {
-    const { id } = req.body;
-    const one = await User.findOne({ id });
+    const { id } = req.params;
+    const one = await User.findById(id);
     res.status(200).json(one);
   } catch (error) {
     next(error);
@@ -52,8 +53,11 @@ const signUp = async (req, res, next) => {
       image: imageUrl,
       certificate: certificateUrl,
     };
-    console.log(newUserData);
     const createdUser = await User.create(newUserData);
+
+    const userId = createdUser._id;
+    await location.create({ ...req.body, user: userId });
+
     const generatedToken = generateToken(createdUser);
     res.status(201).json(generatedToken);
   } catch (error) {

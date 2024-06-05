@@ -14,6 +14,6 @@ router.get("/", getAllBlog);
 router.get("/:id", getBlogById);
 router.post("/", authenticateToken, fileUpload.single("image"), createPostBlog);
 router.delete("/:id", deletePostBlog);
-router.put("/id", updatePostBlog);
+router.put("/:id", updatePostBlog);
 
 module.exports = router;

@@ -18,7 +18,8 @@ const bookingSchema = new Schema({
     required: [true, "age is required"],
   },
   doctor: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: [true, "doctor is required"],
   },
 });

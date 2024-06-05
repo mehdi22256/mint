@@ -4,15 +4,15 @@ const { authenticateToken } = require("../middlewares/auth");
 
 const {
   getAllComment,
-  getCommentById,
   createComment,
   deleteComment,
   updateComment,
+  getAllCommentsByBlogId,
 } = require("./commeint.controller");
 
 router.get("/", getAllComment);
-router.get("/:id", getCommentById);
 router.post("/", authenticateToken, createComment);
+router.get("/:id", getAllCommentsByBlogId);
 router.delete("/:id", authenticateToken, deleteComment);
 router.put("/:id", authenticateToken, updateComment);
 

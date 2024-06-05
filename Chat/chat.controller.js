@@ -9,11 +9,11 @@ const getAllChat = async (req, res, next) => {
   }
 };
 
-const getOneChat = async (req, res, next) => {
+const getAllChatBychatRoomId = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const getone = await chat.find(id);
-    return res.status(200).json({ getone });
+    const getOne = await chat.find({ charroom: id });
+    return res.status(200).json({ getOne });
   } catch (error) {
     next(error);
   }
@@ -41,4 +41,5 @@ module.exports = {
   getAllChat,
   deleteChat,
   addChat,
+  getAllChatBychatRoomId,
 };
