@@ -2,7 +2,9 @@ const ChatRoom = require("../models/chatRoom");
 
 const getAllChatRooms = async (req, res, next) => {
   try {
-    const getAll = await ChatRoom.find({}).populate("usernames");
+    const getAll = await ChatRoom.find({})
+      .populate("sender")
+      .populate("receiver");
     res.status(200).json({ getAll });
   } catch (error) {
     next(error);
@@ -21,11 +23,13 @@ const getOneChatRoom = async (req, res, next) => {
 
 const postChatRoom = async (req, res, next) => {
   try {
-    const newChatRoomData = req.body;
+    const newChatRoomData = { ...req.body, sender: req.user.id };
+
     const createdChatRoom = await ChatRoom.create(newChatRoomData);
     res.status(201).json(createdChatRoom);
   } catch (error) {
     next(error);
+    z;
   }
 };
 

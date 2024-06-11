@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
+
 const path = require("path");
 const blogRoutes = require("./blog/blog.routes");
 const commentRoutes = require("./comments/commeint.routes");
@@ -9,6 +10,9 @@ const categoryRoutes = require("./category/category.routes");
 const Role = require("./Roles/Roles.routes");
 const Booking = require("./Booking/Booking.routes");
 const chat = require("./Chat/chat.routes");
+const location = require("./location/location.routes");
+const Specialty = require("./Specialty/specialty.routes");
+
 const staticPath = path.join(path.dirname(""), "static/images");
 const connectDB = require("./dataBase");
 const express = require("express");
@@ -28,15 +32,9 @@ app.use("/chatroom", chatRoomRoutes);
 app.use("/category", categoryRoutes);
 app.use("/role", Role);
 app.use("/booking", Booking);
-app.use("/caht", chat);
-
-app.use((err, req, res, next) => {
-  res
-    .status(err.status || 500)
-    .json({ message: err.message || "server error" });
-});
-
-app.use(erroring);
+app.use("/chat", chat);
+app.use("/location", location);
+app.use("/specialty", Specialty);
 
 app.listen(port, () => {
   console.log(`your port is ${port}`);

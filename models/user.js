@@ -13,14 +13,11 @@ const userSchema = new Schema({
     type: String,
     required: [true, "first name is required"],
   },
-  secondName: {
+  lastName: {
     type: String,
     required: [true, "second name is required"],
   },
-  familyName: {
-    type: String,
-    required: [true, "family name is required"],
-  },
+
   email: {
     type: String,
     required: [true, "email is required"],
@@ -50,18 +47,42 @@ const userSchema = new Schema({
     type: String,
     required: [true, "city is required"],
   },
-  location: {
-    type: String,
-    required: [true, "location is required"],
-  },
+
   certificate: {
     type: String,
   },
-  // role: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Role",
-  //   required: [true, "role is required"],
-  // },
+  specialty: {
+    type: Schema.Types.ObjectId,
+    ref: "Specialty",
+    required: [true, "specialty is required"],
+  },
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: "Role",
+    required: [true, "role is required"],
+  },
+  phoneNumber: {
+    type: Number,
+  },
+  holidays: {
+    type: String,
+  },
+  startTime: {
+    type: String,
+  },
+  endTime: {
+    type: String,
+  },
+  expectedMinutes: {
+    type: String,
+  },
+  clinicLocation: {
+    type: String,
+  },
+  trusted: {
+    type: String,
+    default: false,
+  },
 });
 
 const User = model("User", userSchema);
