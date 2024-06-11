@@ -8,8 +8,7 @@ const generateToken = (userCredentials) => {
     id: userCredentials._id,
     username: userCredentials.username,
     firstName: userCredentials.firstName,
-    secondName: userCredentials.secondName,
-    familyName: userCredentials.familyName,
+    lastName: userCredentials.lastName,
     email: userCredentials.email,
     gender: userCredentials.gender,
     age: userCredentials.age,
@@ -43,6 +42,7 @@ const getOneUser = async (req, res, next) => {
 
 const signUp = async (req, res, next) => {
   try {
+    console.log(req.files);
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
@@ -50,12 +50,12 @@ const signUp = async (req, res, next) => {
     let imageUrl,
       certificateUrl = null;
 
-    if (req.files.image?.length > 1) {
+    if (req.files.image?.length >= 0) {
       imagename = req.files.image[0].filename;
       imageUrl = "image/" + imagename;
     }
 
-    if (req.files.certificate?.length > 1) {
+    if (req.files.certificate?.length >= 0) {
       certificatename = req.files.certificate[0].filename;
       certificateUrl = "image/" + certificatename;
     }
