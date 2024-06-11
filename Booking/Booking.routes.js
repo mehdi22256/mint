@@ -7,7 +7,6 @@ const {
   deleteBooking,
   findOneBooking,
 } = require("./Booking.controller");
-const { authenticateToken } = require("../middlewares/auth");
 
 router.get("/", getBooking);
 router.get("/:id", findOneBooking);
