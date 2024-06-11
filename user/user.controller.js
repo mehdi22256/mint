@@ -7,8 +7,7 @@ const generateToken = (userCredentials) => {
     id: userCredentials._id,
     username: userCredentials.username,
     firstName: userCredentials.firstName,
-    secondName: userCredentials.secondName,
-    familyName: userCredentials.familyName,
+    lastName: userCredentials.lastName,
     email: userCredentials.email,
     gender: userCredentials.gender,
     age: userCredentials.age,
@@ -65,7 +64,6 @@ const signIn = async (req, res, next) => {
   try {
     const payLoad = req.user;
     const generatedToken = generateToken(payLoad);
-    console.log("🚀 ~ signIn ~ generatedToken:", generatedToken);
     res.status(201).json(generatedToken);
   } catch (error) {
     next(error);

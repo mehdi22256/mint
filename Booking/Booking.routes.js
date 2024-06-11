@@ -6,9 +6,10 @@ const {
   deleteBooking,
   findOneBooking,
 } = require("./Booking.controller");
+const { authenticateToken } = require("../middlewares/auth");
 
 router.get("/", getBooking);
 router.get("/:id", findOneBooking);
-router.post("/", addBooking);
-router.delete("/:id", deleteBooking);
+router.post("/", authenticateToken, addBooking);
+router.delete("/:id", authenticateToken, deleteBooking);
 module.exports = router;

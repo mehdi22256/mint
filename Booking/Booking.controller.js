@@ -20,9 +20,11 @@ const findOneBooking = async (req, res, next) => {
 
 const addBooking = async (req, res, next) => {
   try {
-    const addbooking = await Booking.create(req.body);
-    return res.status(200).json({ addBooking });
-    return res.status;
+    const addbooking = await Booking.create({
+      ...req.body,
+      user: req.user._id,
+    });
+    return res.status(200).json({ addbooking });
   } catch (error) {
     next(error);
   }
@@ -31,7 +33,7 @@ const deleteBooking = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletebooking = await Booking.findByIdAndDelete(id);
-    res.status(200).json(deleteBooking);
+    res.status(200).json(deletebooking);
   } catch (error) {
     next(error);
   }

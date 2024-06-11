@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
 const chatRoomSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "text is required"],
-  },
   usernames: [
     {
       type: Schema.Types.ObjectId,
