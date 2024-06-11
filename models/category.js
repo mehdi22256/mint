@@ -6,13 +6,6 @@ const categorySchema = new Schema({
     type: String,
     required: [true, "category name is required"],
   },
-  blog: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Blog",
-      required: [true, "blog is required"],
-    },
-  ],
 });
 
 const Category = model("Category", categorySchema);
