@@ -46,8 +46,20 @@ const signUp = async (req, res, next) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
-    const imageUrl = "image/" + req.files.image[0].filename;
-    const certificateUrl = "image/" + req.files.certificate[0].filename;
+    let imagename, certificatename;
+    let imageUrl,
+      certificateUrl = null;
+
+    if (req.files.image?.length > 1) {
+      imagename = req.files.image[0].filename;
+      imageUrl = "image/" + imagename;
+    }
+
+    if (req.files.certificate?.length > 1) {
+      certificatename = req.files.certificate[0].filename;
+      certificateUrl = "image/" + certificatename;
+    }
+
     const newUserData = {
       ...req.body,
       image: imageUrl,
