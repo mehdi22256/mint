@@ -1,6 +1,4 @@
-const { models } = require("mongoose");
 const Blog = require("../models/blogs");
-const { json } = require("express");
 
 async function getAllBlog(req, res, next) {
   try {
@@ -25,6 +23,7 @@ async function getBlogById(req, res, next) {
 async function createPostBlog(req, res, next) {
   try {
     const imageFile = req.file;
+    console.log(req.user);
     if (!imageFile) {
       throw new Error("image file not found");
     }

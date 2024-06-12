@@ -11,5 +11,5 @@ const {
 router.get("/", getBooking);
 router.get("/:id", findOneBooking);
 router.post("/", authenticateToken, addBooking);
-router.delete("/:id", deleteBooking);
+router.delete("/:id", authenticateToken, deleteBooking);
 module.exports = router;
