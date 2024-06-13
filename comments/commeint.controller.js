@@ -4,7 +4,7 @@ const Comments = require("../models/comments");
 
 async function getAllComment(req, res, next) {
   try {
-    const getComment = await Comments.find();
+    const getComment = await Comments.find().populate("user");
     res.status(201).json(getComment);
   } catch (error) {
     next(error);
@@ -23,11 +23,12 @@ async function getCommentById(req, res, next) {
 
 async function createComment(req, res, next) {
   try {
-    const newComment = await Comments.create({
-      ...req.body,
+    const newComment = req.body;
+    const createdComment = await Comments.create({
+      ...newComment,
       user: req.user.id,
     });
-    res.status(201).json(newComment);
+    res.status(201).json(createdComment);
   } catch (error) {
     next(error);
   }
