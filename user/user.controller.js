@@ -32,34 +32,18 @@ const getAllUsers = async (req, res, next) => {
 
 const getDoctor = async (req, res, next) => {
   try {
-    if (req.body.city == null && req.body.category == null) {
-      const one = await User.find({
-        role: "665de357e9ef4cb7062684dd",
-      });
-      res.status(200).json(one);
-    }
-    if (req.body.category == null) {
-      const one = await User.find({
-        role: "665de357e9ef4cb7062684dd",
-        city: req.body.city,
-      });
-      res.status(200).json(one);
-    }
-    if (req.body.city == null) {
-      const one = await User.find({
-        role: "665de357e9ef4cb7062684dd",
-        category: req.body.category,
-      });
-      res.status(200).json(one);
+    let find = { role: "665de357e9ef4cb7062684dd" };
+
+    if (req.body.city != null) {
+      find.city = req.body.city;
     }
 
-    const one = await User.find({
-      role: "665de357e9ef4cb7062684dd",
-      category: req.body.category,
-      city: req.body.city,
-    });
+    if (req.body.specialty != null) {
+      find.specialty = req.body.specialty;
+    }
 
-    res.status(200).json(one);
+    const doctors = await User.find(find);
+    res.status(200).json(doctors);
   } catch (error) {
     next(error);
   }
