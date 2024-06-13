@@ -2,7 +2,15 @@ const Blog = require("../models/blogs");
 
 async function getAllBlog(req, res, next) {
   try {
-    const getBlog = await Blog.find();
+    const getBlog = await Blog.find()
+      .populate("category")
+      .populate("user")
+      .populate({
+        path: "user",
+        populate: {
+          path: "role",
+        },
+      });
     res.status(201).json(getBlog);
   } catch (error) {
     next(error);
@@ -27,7 +35,7 @@ async function createPostBlog(req, res, next) {
     if (!imageFile) {
       throw new Error("image file not found");
     }
-    const imageUrl = "images/" + imageFile.filename;
+    const imageUrl = "image/" + imageFile.filename;
     const newBlog = await Blog.create({
       ...req.body,
       image: imageUrl,
