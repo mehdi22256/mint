@@ -3,7 +3,7 @@ const router = express.Router();
 const upload = require("../middlewares/fileUpload");
 const {
   getAllUsers,
-  getOneUser,
+  getDoctor,
   signUp,
   putUser,
   deleteUser,
@@ -12,7 +12,7 @@ const {
 const { authenticateUser } = require("../middlewares/auth");
 
 router.get("/", getAllUsers);
-router.get("/:id", getOneUser);
+router.get("/doctor", getDoctor);
 router.post(
   "/signup",
   upload.fields([{ name: "image" }, { name: "certificate" }]),

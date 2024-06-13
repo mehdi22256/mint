@@ -30,10 +30,35 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const getOneUser = async (req, res, next) => {
+const getDoctor = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const one = await User.findById(id);
+    if (req.body.city == null && req.body.category == null) {
+      const one = await User.find({
+        role: "665de357e9ef4cb7062684dd",
+      });
+      res.status(200).json(one);
+    }
+    if (req.body.category == null) {
+      const one = await User.find({
+        role: "665de357e9ef4cb7062684dd",
+        city: req.body.city,
+      });
+      res.status(200).json(one);
+    }
+    if (req.body.city == null) {
+      const one = await User.find({
+        role: "665de357e9ef4cb7062684dd",
+        category: req.body.category,
+      });
+      res.status(200).json(one);
+    }
+
+    const one = await User.find({
+      role: "665de357e9ef4cb7062684dd",
+      category: req.body.category,
+      city: req.body.city,
+    });
+
     res.status(200).json(one);
   } catch (error) {
     next(error);
@@ -112,7 +137,7 @@ const deleteUser = async (req, res, next) => {
 
 module.exports = {
   getAllUsers,
-  getOneUser,
+  getDoctor,
   signUp,
   putUser,
   deleteUser,
