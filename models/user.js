@@ -41,7 +41,6 @@ const userSchema = new Schema({
   },
   age: {
     type: Number,
-    required: [true, "age is required"],
   },
   city: {
     type: String,
@@ -77,6 +76,9 @@ const userSchema = new Schema({
     type: String,
   },
   clinicLocation: {
+    type: String,
+  },
+  governorate: {
     type: String,
   },
   trusted: {

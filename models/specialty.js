@@ -4,7 +4,6 @@ const { model, Schema } = mongoose;
 const specialtySchema = new Schema({
   name: {
     type: String,
-    required: [true, "specialty is required"],
   },
 });
 
