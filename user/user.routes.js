@@ -8,11 +8,14 @@ const {
   putUser,
   deleteUser,
   signIn,
+  getPharmacist,
 } = require("./user.controller");
 const { authenticateUser, authenticateToken } = require("../middlewares/auth");
 
 router.get("/", getAllUsers);
-router.get("/doctor", getDoctor);
+router.post("/doctor", getDoctor);
+router.get("/pharmacist", getPharmacist);
+
 router.post(
   "/signup",
   upload.fields([{ name: "image" }, { name: "certificate" }]),

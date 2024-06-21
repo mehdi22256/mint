@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const location = require("../models/location");
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
+
 const jwt = require("jsonwebtoken");
 
 const generateToken = (userCredentials) => {
@@ -36,36 +38,33 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const getPharmacist = async (req, res, next) => {
+  try {
+    let find = { role: "665de37ce9ef4cb7062684e0" };
+    if (req.body.governorate != null) {
+      find.governorate = req.body.governorate;
+    }
+    const pharmacist = await User.find(find);
+    res.status(200).json(pharmacist);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getDoctor = async (req, res, next) => {
   try {
-    if (req.body.city == null && req.body.category == null) {
-      const one = await User.find({
-        role: "665de357e9ef4cb7062684dd",
-      });
-      res.status(200).json(one);
-    }
-    if (req.body.category == null) {
-      const one = await User.find({
-        role: "665de357e9ef4cb7062684dd",
-        city: req.body.city,
-      });
-      res.status(200).json(one);
-    }
-    if (req.body.city == null) {
-      const one = await User.find({
-        role: "665de357e9ef4cb7062684dd",
-        category: req.body.category,
-      });
-      res.status(200).json(one);
+    let find = { role: "665de357e9ef4cb7062684dd" };
+
+    if (req.body.city != null) {
+      find.city = req.body.city;
     }
 
-    const one = await User.find({
-      role: "665de357e9ef4cb7062684dd",
-      category: req.body.category,
-      city: req.body.city,
-    });
-
-    res.status(200).json(one);
+    if (req.body.specialty != null) {
+      find.specialty = req.body.specialty;
+    }
+    console.log(req.body);
+    const doctors = await User.find(find);
+    res.status(200).json(doctors);
   } catch (error) {
     next(error);
   }
@@ -91,6 +90,14 @@ const signUp = async (req, res, next) => {
       certificateUrl = "image/" + certificatename;
     }
 
+    if (!req.body.specialty || req.body.specialty.trim() === "") {
+      req.body.specialty = new mongoose.Types.ObjectId(
+        "666d68a046a80e2534658138"
+      );
+    } else {
+      req.body.specialty = new mongoose.Types.ObjectId(req.body.specialty);
+    }
+
     const newUserData = {
       ...req.body,
       image: imageUrl,
@@ -99,7 +106,15 @@ const signUp = async (req, res, next) => {
     const createdUser = await User.create(newUserData);
 
     const userId = createdUser._id;
-    await location.create({ ...req.body, user: userId });
+    if (!req.body.longitude || !req.body.latitude) {
+      return res.status(400).json({ message: "Location is required" });
+    }
+
+    await Location.create({
+      user: userId,
+      longitude: req.body.longitude,
+      latitude: req.body.latitude,
+    });
 
     const generatedToken = generateToken(createdUser);
     res.status(201).json(generatedToken);
@@ -166,4 +181,5 @@ module.exports = {
   putUser,
   deleteUser,
   signIn,
+  getPharmacist,
 };
