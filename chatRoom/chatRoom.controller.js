@@ -2,9 +2,9 @@ const ChatRoom = require("../models/chatRoom");
 
 const getAllChatRooms = async (req, res, next) => {
   try {
-    const getAll = await ChatRoom.find({})
-      .populate("sender")
-      .populate("receiver");
+    const getAll = await ChatRoom.find({});
+    // .populate("sender")
+    // .populate("receiver");
     res.status(200).json({ getAll });
   } catch (error) {
     next(error);
@@ -23,13 +23,22 @@ const getOneChatRoom = async (req, res, next) => {
 
 const postChatRoom = async (req, res, next) => {
   try {
-    const newChatRoomData = { ...req.body, sender: req.user.id };
+    const users = req.body;
+    const chatroomId = users.join("-");
 
-    const createdChatRoom = await ChatRoom.create(newChatRoomData);
-    res.status(201).json(createdChatRoom);
+    const reversedArray = users.reverse();
+    const reversed = reversedArray.join("-");
+
+    let chatroom = await ChatRoom.findOne({ chatroomId } || { reversed });
+
+    if (!chatroom) {
+      chatroom = new ChatRoom({ chatroomId, users });
+      await chatroom.save();
+    }
+
+    res.status(200).json({ chatroomId });
   } catch (error) {
     next(error);
-    z;
   }
 };
 

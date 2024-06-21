@@ -12,7 +12,7 @@ const {
 
 router.get("/", getAllChatRooms);
 router.get("/:id", getOneChatRoom);
-router.post("/", authenticateToken, postChatRoom);
+router.post("/", postChatRoom);
 router.delete("/:id", authenticateToken, deleteChatRoom);
 router.put("/:id", authenticateToken, putChatRoom);
 

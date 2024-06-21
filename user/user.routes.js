@@ -9,7 +9,7 @@ const {
   deleteUser,
   signIn,
 } = require("./user.controller");
-const { authenticateUser } = require("../middlewares/auth");
+const { authenticateUser, authenticateToken } = require("../middlewares/auth");
 
 router.get("/", getAllUsers);
 router.get("/doctor", getDoctor);
@@ -20,6 +20,6 @@ router.post(
 );
 router.post("/signin", authenticateUser, signIn);
 router.delete("/:id", deleteUser);
-router.put("/:id", putUser);
+router.put("/:id", upload.single("image"), putUser);
 
 module.exports = router;
