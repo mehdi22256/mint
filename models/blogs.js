@@ -29,7 +29,7 @@ const blogSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    // required: [true, "user is required"],
+    required: [true, "user is required"],
   },
   category: {
     type: Schema.Types.ObjectId,
