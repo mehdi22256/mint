@@ -10,7 +10,7 @@ const chatSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  ChatRoom: {
+  chatroom: {
     type: Schema.Types.ObjectId,
     ref: "ChatRoom",
   },

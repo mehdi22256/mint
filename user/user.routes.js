@@ -3,16 +3,19 @@ const router = express.Router();
 const upload = require("../middlewares/fileUpload");
 const {
   getAllUsers,
-  getOneUser,
+  getDoctor,
   signUp,
   putUser,
   deleteUser,
   signIn,
+  getPharmacist,
 } = require("./user.controller");
 const { authenticateUser } = require("../middlewares/auth");
 
 router.get("/", getAllUsers);
-router.get("/:id", getOneUser);
+router.post("/doctor", getDoctor);
+router.get("/pharmacist", getPharmacist);
+
 router.post(
   "/signup",
   upload.fields([{ name: "image" }, { name: "certificate" }]),

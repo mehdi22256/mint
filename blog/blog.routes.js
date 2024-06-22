@@ -13,7 +13,7 @@ const { authenticateToken } = require("../middlewares/auth");
 router.get("/", getAllBlog);
 router.get("/:id", getBlogById);
 router.post("/", authenticateToken, fileUpload.single("image"), createPostBlog);
-router.delete("/:id", deletePostBlog);
-router.put("/id", updatePostBlog);
+router.delete("/:id", authenticateToken, deletePostBlog);
+router.put("/id", authenticateToken, updatePostBlog);
 
 module.exports = router;

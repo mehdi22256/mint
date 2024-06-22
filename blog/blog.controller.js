@@ -1,10 +1,16 @@
-const { models } = require("mongoose");
 const Blog = require("../models/blogs");
-const { json } = require("express");
 
 async function getAllBlog(req, res, next) {
   try {
-    const getBlog = await Blog.find();
+    const getBlog = await Blog.find()
+      .populate("category")
+      .populate("user")
+      .populate({
+        path: "user",
+        populate: {
+          path: "role",
+        },
+      });
     res.status(201).json(getBlog);
   } catch (error) {
     next(error);
@@ -25,13 +31,15 @@ async function getBlogById(req, res, next) {
 async function createPostBlog(req, res, next) {
   try {
     const imageFile = req.file;
+    console.log(req.user);
     if (!imageFile) {
       throw new Error("image file not found");
     }
-    const imageUrl = "images/" + imageFile.filename;
+    const imageUrl = "image/" + imageFile.filename;
     const newBlog = await Blog.create({
       ...req.body,
       image: imageUrl,
+      user: req.user.id,
     });
     res.status(201).json(newBlog);
   } catch (error) {

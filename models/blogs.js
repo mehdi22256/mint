@@ -12,7 +12,7 @@ const blogSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now(),
+    default: new Date(),
   },
   timeOfReading: {
     type: String,
@@ -34,7 +34,7 @@ const blogSchema = new Schema({
   category: {
     type: Schema.Types.ObjectId,
     ref: "Category",
-    // required: [true, "category is required"],
+    required: [true, "category is required"],
   },
 });
 
