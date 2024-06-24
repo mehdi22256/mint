@@ -12,17 +12,47 @@ const Booking = require("./Booking/Booking.routes");
 const chat = require("./Chat/chat.routes");
 const location = require("./location/location.routes");
 const Specialty = require("./Specialty/specialty.routes");
-
+const { join } = require("node:path");
 const staticPath = path.join(path.dirname(""), "static/images");
 const connectDB = require("./dataBase");
 const express = require("express");
 const app = express();
 const port = 1000;
+connectDB();
+
+// socket
+const http = require("http");
+const { Server } = require("socket.io");
 const cors = require("cors");
-const erroring = require("./middlewares/errorHandler");
 app.use(express.json());
 app.use(cors());
-connectDB();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("broadcast_message", (data) => {
+    socket.broadcast.emit("new_broadcast", data);
+  });
+});
+
+server.listen(3001, () => {
+  console.log("SERVER IS RUNNING");
+});
 
 app.use("/blog", blogRoutes);
 app.use("/comment", commentRoutes);
