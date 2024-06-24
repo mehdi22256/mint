@@ -22,7 +22,6 @@ const addBooking = async (req, res, next) => {
   try {
     const addbooking = await Booking.create({ ...req.body, user: req.user.id });
     return res.status(200).json({ addbooking });
-    return res.status;
   } catch (error) {
     next(error);
   }
