@@ -44,6 +44,10 @@ io.on("connection", (socket) => {
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
   });
+
+  socket.on("broadcast_message", (data) => {
+    socket.broadcast.emit("new_broadcast", data);
+  });
 });
 
 server.listen(3001, () => {

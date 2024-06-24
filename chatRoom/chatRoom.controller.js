@@ -1,11 +1,12 @@
 const ChatRoom = require("../models/chatRoom");
+const User = require("../models/user");
 
 const getAllChatRooms = async (req, res, next) => {
   try {
     const getAll = await ChatRoom.find({});
     // .populate("sender")
     // .populate("receiver");
-    res.status(200).json({ getAll });
+    res.status(200).json(getAll);
   } catch (error) {
     next(error);
   }
@@ -13,9 +14,19 @@ const getAllChatRooms = async (req, res, next) => {
 
 const getOneChatRoom = async (req, res, next) => {
   try {
-    const { id } = req.body;
-    const one = await ChatRoom.find({ id });
-    res.status(200).json(one);
+    const userId = req.user.id;
+    const chatRooms = await ChatRoom.find({ users: userId });
+
+    // Extract the user IDs of the other users in the chat rooms
+    const otherUserIds = chatRooms.map((chatRoom) => {
+      return chatRoom.users.find((id) => id.toString() !== userId.toString());
+    });
+
+    // Fetch user details for those IDs
+    const foundUsers = await User.find({ _id: { $in: otherUserIds } });
+    console.log("🚀 ~ getOneChatRoom ~ foundUsers:", foundUsers);
+
+    res.status(200).json(foundUsers);
   } catch (error) {
     next(error);
   }
@@ -24,6 +35,7 @@ const getOneChatRoom = async (req, res, next) => {
 const postChatRoom = async (req, res, next) => {
   try {
     const users = req.body;
+
     const chatroomId = users.join("-");
 
     const reversedArray = users.reverse();

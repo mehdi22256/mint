@@ -137,8 +137,8 @@ const putUser = async (req, res, next) => {
   try {
     let imageName;
     let imageUrl;
+    console.log(req.file.filename);
     const { id } = req.params;
-
     if (req.file && req.file.image?.length >= 0) {
       imageName = req.file.filename;
       imageUrl = "image/" + imageName;
@@ -157,7 +157,6 @@ const putUser = async (req, res, next) => {
 
     const generatedToken = generateToken(updateUser);
 
-    console.log("🚀 ~ putUser ~ updateUser:", updateUser);
     res.status(200).json(generatedToken);
   } catch (error) {
     next(error);

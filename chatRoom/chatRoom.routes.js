@@ -11,7 +11,7 @@ const {
 } = require("./chatRoom.controller");
 
 router.get("/", getAllChatRooms);
-router.get("/:id", getOneChatRoom);
+router.post("/oneChat", authenticateToken, getOneChatRoom);
 router.post("/", postChatRoom);
 router.delete("/:id", authenticateToken, deleteChatRoom);
 router.put("/:id", authenticateToken, putChatRoom);
