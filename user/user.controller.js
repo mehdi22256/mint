@@ -18,6 +18,12 @@ const generateToken = (userCredentials) => {
     location: userCredentials.location,
     image: userCredentials.image,
     certificate: userCredentials.certificate,
+    role: userCredentials.role,
+    trusted: userCredentials.trusted,
+    clinicLocation: userCredentials.clinicLocation,
+    holidays: userCredentials.holidays,
+    startTime: userCredentials.startTime,
+    endTime: userCredentials.endTime,
   };
   const token = jwt.sign(payload, process.env.SECRET_KEY);
   return token;
@@ -129,12 +135,29 @@ const signIn = async (req, res, next) => {
 
 const putUser = async (req, res, next) => {
   try {
-    console.log(req.params);
+    let imageName;
+    let imageUrl;
+    console.log(req.file.filename);
     const { id } = req.params;
-    const updateUser = await User.findByIdAndUpdate(id, req.body, {
+    if (req.file && req.file.image?.length >= 0) {
+      imageName = req.file.filename;
+      imageUrl = "image/" + imageName;
+    }
+    const newUserData = {
+      ...req.body,
+      image: imageUrl,
+    };
+    const updateUser = await User.findByIdAndUpdate(id, newUserData, {
       new: true,
     });
-    res.status(201).json(updateUser);
+
+    if (!updateUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const generatedToken = generateToken(updateUser);
+
+    res.status(200).json(generatedToken);
   } catch (error) {
     next(error);
   }
