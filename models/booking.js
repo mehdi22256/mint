@@ -6,16 +6,21 @@ const bookingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  name: {
+    type: String,
+  },
+
   date: {
-    date: Date,
+    type: String,
+  },
+  time: {
+    type: String,
   },
   gender: {
     type: String,
-    required: [true, "gender is required"],
   },
   age: {
     type: Number,
-    required: [true, "age is required"],
   },
   doctor: {
     type: Schema.Types.ObjectId,
