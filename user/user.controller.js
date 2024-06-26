@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
 const jwt = require("jsonwebtoken");
+const getFirebaseImageUrl = require("../config/firebasestorageservice");
 
 const generateToken = (userCredentials) => {
   const payload = {
@@ -72,22 +73,26 @@ const getDoctor = async (req, res, next) => {
 
 const signUp = async (req, res, next) => {
   try {
-    console.log(req.files);
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
-    let imagename, certificatename;
     let imageUrl,
       certificateUrl = null;
 
     if (req.files.image?.length >= 0) {
-      imagename = req.files.image[0].filename;
-      imageUrl = "image/" + imagename;
+      imageUrl = await getFirebaseImageUrl(
+        "profile",
+        req.files.image[0].path,
+        req.files.image[0].filename
+      );
     }
 
     if (req.files.certificate?.length >= 0) {
-      certificatename = req.files.certificate[0].filename;
-      certificateUrl = "image/" + certificatename;
+      certificateUrl = await getFirebaseImageUrl(
+        "certificate",
+        req.files.certificate[0].path,
+        req.files.certificate[0].filename
+      );
     }
 
     if (!req.body.specialty || req.body.specialty.trim() === "") {
@@ -105,12 +110,12 @@ const signUp = async (req, res, next) => {
     };
     const createdUser = await User.create(newUserData);
 
-    const userId = createdUser._id;
+    let userId = createdUser._id;
     if (!req.body.longitude || !req.body.latitude) {
       return res.status(400).json({ message: "Location is required" });
     }
 
-    await Location.create({
+    await location.create({
       user: userId,
       longitude: req.body.longitude,
       latitude: req.body.latitude,
@@ -135,13 +140,15 @@ const signIn = async (req, res, next) => {
 
 const putUser = async (req, res, next) => {
   try {
-    let imageName;
     let imageUrl;
     console.log(req.file.filename);
     const { id } = req.params;
     if (req.file && req.file.image?.length >= 0) {
-      imageName = req.file.filename;
-      imageUrl = "image/" + imageName;
+      imageUrl = await getFirebaseImageUrl(
+        "profile",
+        req.file.path,
+        req.file.filename
+      );
     }
     const newUserData = {
       ...req.body,
