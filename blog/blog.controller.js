@@ -1,3 +1,4 @@
+const getFirebaseImageUrl = require("../config/firebasestorageservice");
 const Blog = require("../models/blogs");
 
 async function getAllBlog(req, res, next) {
@@ -30,12 +31,16 @@ async function getBlogById(req, res, next) {
 
 async function createPostBlog(req, res, next) {
   try {
+    console.log(req.file);
     const imageFile = req.file;
-    console.log(req.user);
     if (!imageFile) {
       throw new Error("image file not found");
     }
-    const imageUrl = "image/" + imageFile.filename;
+    const imageUrl = await getFirebaseImageUrl(
+      "blogImage",
+      req.file.path,
+      req.file.filename
+    );
     const newBlog = await Blog.create({
       ...req.body,
       image: imageUrl,
