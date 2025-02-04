@@ -2,7 +2,7 @@ const location = require("../models/location");
 
 const getAllLocation = async (req, res, next) => {
   try {
-    const getLocation = await location.find();
+    const getLocation = await location.find().populate("user");
     return res.status(200).json({ getLocation });
   } catch (error) {
     next(error);

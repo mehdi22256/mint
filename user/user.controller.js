@@ -42,7 +42,7 @@ const getAllUsers = async (req, res, next) => {
 const getPharmacist = async (req, res, next) => {
   try {
     let find = { role: "665de37ce9ef4cb7062684e0" };
-    if (req.body.governorate != null) {
+    if (req.body.governorate != "null") {
       find.governorate = req.body.governorate;
     }
     const pharmacist = await User.find(find);
@@ -56,11 +56,11 @@ const getDoctor = async (req, res, next) => {
   try {
     let find = { role: "665de357e9ef4cb7062684dd" };
 
-    if (req.body.city != null) {
+    if (req.body.city != "null") {
       find.city = req.body.city;
     }
 
-    if (req.body.specialty != null) {
+    if (req.body.specialty != "null") {
       find.specialty = req.body.specialty;
     }
     console.log(req.body);

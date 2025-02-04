@@ -14,7 +14,7 @@ const { authenticateUser, authenticateToken } = require("../middlewares/auth");
 
 router.get("/", getAllUsers);
 router.post("/doctor", getDoctor);
-router.get("/pharmacist", getPharmacist);
+router.post("/pharmacist", getPharmacist);
 
 router.post(
   "/signup",

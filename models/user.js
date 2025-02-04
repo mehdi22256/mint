@@ -53,7 +53,6 @@ const userSchema = new Schema({
   specialty: {
     type: Schema.Types.ObjectId,
     ref: "Specialty",
-    required: [true, "specialty is required"],
   },
   role: {
     type: Schema.Types.ObjectId,
